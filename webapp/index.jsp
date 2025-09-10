@@ -8,7 +8,11 @@
 <link rel="stylesheet" href="style.css"> 
 </head> 
 <body> 
-<div class="container"> 
+<div class="container">
+<h2>サインアップ</h2>
+<a href="jsp/singup.jsp">アカウントの作成</a>
+<h2>サインイン</h2>
+<a href="jsp/singin.jsp">サインイン</a>
 <h1>予約入力</h1> 
 <form action="${pageContext.request.contextPath}/reservation" method="post"> 
 <input type="hidden" name="action" value="add"> 

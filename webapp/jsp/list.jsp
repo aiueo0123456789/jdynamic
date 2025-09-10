@@ -105,29 +105,6 @@ style="display:inline;">
         <c:url var="prevUrl" value="/reservation"> 
           <c:param name="action" value="list"/> 
           <c:param name="page" value="${currentPage - 1}"/>
-          
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
           <c:param name="search" value="${searchTerm}"/> 
           <c:param name="sortBy" value="${sortBy}"/> 
           <c:param name="sortOrder" value="${sortOrder}"/> 
