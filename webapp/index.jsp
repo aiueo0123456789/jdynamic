@@ -51,4 +51,4 @@ class="button secondary">予約一覧を見る</a>
 </div> 
 </div> 
 </body> 
-</html> 
+</html>
