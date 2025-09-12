@@ -1,4 +1,4 @@
-package com.example.reservation; 
+package com.example.main; 
  
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -9,31 +9,37 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.List;
 
-import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletException;
-import javax.servlet.annotation.MultipartConfig;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.Part; 
- 
+import jakarta.servlet.RequestDispatcher;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.MultipartConfig;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.Part;
+
+import com.example.event.EventDAO;
+import com.example.reservation.Reservation;
+import com.example.reservation.ReservationDAO;
+
 @MultipartConfig 
-@WebServlet("/reservation") 
-public class ReservationServlet extends HttpServlet { 
-    private final ReservationDAO reservationDAO = new ReservationDAO(); 
- 
+@WebServlet("/main") 
+public class MainServlet extends HttpServlet { 
+    private final ReservationDAO reservationDAO = new ReservationDAO();
+    private final EventDAO eventDAO = new EventDAO();
+
     @Override 
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException { 
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    	System.out.println("doGet が呼ばれました");
         String action = req.getParameter("action"); 
- 
+
         if ("list".equals(action) || action == null) { 
             String searchTerm = req.getParameter("search"); 
             String sortBy = req.getParameter("sortBy"); 
             String sortOrder = req.getParameter("sortOrder"); 
             int page = 1; 
             int recordsPerPage = 5; 
- 
+
             if (req.getParameter("page") != null) { 
                 page = Integer.parseInt(req.getParameter("page")); 
             }
@@ -53,7 +59,7 @@ public class ReservationServlet extends HttpServlet {
             req.setAttribute("sortOrder", sortOrder); 
  
             RequestDispatcher rd = req.getRequestDispatcher("/jsp/list.jsp"); 
-            rd.forward(req, resp); 
+            rd.forward(req, resp);
         } else if ("edit".equals(action)) { 
             int id = Integer.parseInt(req.getParameter("id")); 
             Reservation reservation = reservationDAO.getReservationById(id); 
@@ -72,13 +78,14 @@ public class ReservationServlet extends HttpServlet {
     } 
  
     @Override 
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException { 
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    	System.out.println("doPost が呼ばれました");
         req.setCharacterEncoding("UTF-8"); 
-        String action = req.getParameter("action"); 
- 
-        if ("add".equals(action)) { 
-            String name = req.getParameter("name"); 
-            String reservationTimeString = req.getParameter("reservation_time");
+        String action = req.getParameter("action");  
+
+        if ("eventAdd".equals(action)) { 
+            String name = req.getParameter("event_name"); 
+            String reservationTimeString = req.getParameter("event_time");
             if (name == null || name.trim().isEmpty()) {
                 req.setAttribute("errorMessage", "名前は必須です。");
                 RequestDispatcher rd = req.getRequestDispatcher("/index.jsp"); 
@@ -111,7 +118,7 @@ public class ReservationServlet extends HttpServlet {
                 req.setAttribute("errorMessage", "有効な日時を入力してください。"); 
                 RequestDispatcher rd = req.getRequestDispatcher("/index.jsp"); 
                 rd.forward(req, resp); 
-            } 
+            }
         } else if ("update".equals(action)) { 
             int id = Integer.parseInt(req.getParameter("id")); 
             String name = req.getParameter("name"); 
@@ -158,8 +165,7 @@ public class ReservationServlet extends HttpServlet {
             try { 
                 Part filePart = req.getPart("csvFile"); 
                 if (filePart != null && filePart.getSize() > 0) { 
-                    try (BufferedReader reader = new BufferedReader(new InputStreamReader(filePart.getInputStream(), 
-"UTF-8"))) { 
+                    try (BufferedReader reader = new BufferedReader(new InputStreamReader(filePart.getInputStream(), "UTF-8"))) {
                         reservationDAO.importReservations(reader); 
                         req.setAttribute("successMessage", "CSV ファイルのインポートが完了しました。"); 
                     } 
@@ -168,8 +174,7 @@ public class ReservationServlet extends HttpServlet {
                     req.setAttribute("errorMessage", "インポートするファイルを選択してください。"); 
                 }
             } catch (Exception e) { 
-                req.setAttribute("errorMessage", "CSV ファイルのインポート中にエラーが発生しました: " + 
-e.getMessage()); 
+                req.setAttribute("errorMessage", "CSV ファイルのインポート中にエラーが発生しました: " + e.getMessage()); 
                 e.printStackTrace(); 
             } 
             RequestDispatcher rd = req.getRequestDispatcher("/jsp/list.jsp"); 

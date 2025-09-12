@@ -1,4 +1,4 @@
-package com.example.reservation; 
+package com.example.event; 
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -16,79 +16,79 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
-public class ReservationDAO { 
-    private static final List<Reservation> reservations = new CopyOnWriteArrayList<>(); 
+public class EventDAO { 
+    private static final List<Event> Events = new CopyOnWriteArrayList<>(); 
     private static final AtomicInteger idCounter = new AtomicInteger(0); 
-    private static final String DATA_FILE = "reservations.dat"; 
+    private static final String DATA_FILE = "Events.dat"; 
     private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ISO_LOCAL_DATE_TIME; 
 
     static { 
-        loadReservations(); 
+        loadEvents(); 
     }
 
-    public List<Reservation> getAllReservations() { 
-        return new ArrayList<>(reservations); 
+    public List<Event> getAllEvents() { 
+        return new ArrayList<>(Events); 
     } 
  
-    public Reservation getReservationById(int id) { 
-        return reservations.stream() 
+    public Event getEventById(int id) { 
+        return Events.stream() 
                 .filter(r -> r.getId() == id) 
                 .findFirst() 
                 .orElse(null); 
     } 
  
-    public boolean addReservation(String name, LocalDateTime reservationTime) { 
-        if (isDuplicate(name, reservationTime)) { 
-            return false; 
-        } 
+    public boolean addEvent(String name, LocalDateTime EventTime) {
+        if (isDuplicate(name, EventTime)) {
+            return false;
+        }
         int id = idCounter.incrementAndGet(); 
-        reservations.add(new Reservation(id, name, reservationTime)); 
-        saveReservations(); 
-        return true; 
+        Events.add(new Event(id, name, EventTime)); 
+        saveEvents();
+        return true;
     }
 
-    public boolean updateReservation(int id, String name, LocalDateTime reservationTime) { 
-        if (isDuplicate(name, reservationTime, id)) { 
+    public boolean updateEvent(int id, String name, LocalDateTime EventTime) { 
+        if (isDuplicate(name, EventTime, id)) { 
             return false; 
         } 
-        for (int i = 0; i < reservations.size(); i++) { 
-            if (reservations.get(i).getId() == id) { 
-                reservations.set(i, new Reservation(id, name, reservationTime)); 
-                saveReservations(); 
+        for (int i = 0; i < Events.size(); i++) { 
+            if (Events.get(i).getId() == id) { 
+                Events.set(i, new Event(id, name, EventTime)); 
+                saveEvents(); 
                 return true; 
             } 
         } 
         return false; 
     } 
- 
-    public boolean deleteReservation(int id) { 
-        boolean removed = reservations.removeIf(r -> r.getId() == id); 
+
+    public boolean deleteEvent(int id) { 
+        boolean removed = Events.removeIf(r -> r.getId() == id); 
         if (removed) { 
-            saveReservations(); 
+            saveEvents(); 
         } 
         return removed; 
     } 
- 
-    public void cleanUpPastReservations() { 
-        int initialSize = reservations.size(); 
-        reservations.removeIf(r -> r.getReservationTime().isBefore(LocalDateTime.now())); 
-        if (reservations.size() < initialSize) { 
-            saveReservations(); 
+
+    public void cleanUpPastEvents() { 
+        int initialSize = Events.size(); 
+        Events.removeIf(r -> r.getEventTime().isBefore(LocalDateTime.now())); 
+        if (Events.size() < initialSize) { 
+            saveEvents(); 
         } 
     } 
- 
-    public List<Reservation> searchAndSortReservations(String searchTerm, String sortBy, String sortOrder) {
-        List<Reservation> filteredList = reservations.stream() 
+
+    public List<Event> searchAndSortEvents(String searchTerm, String sortBy, String sortOrder) {
+        List<Event> filteredList = Events.stream() 
                 .filter(r -> searchTerm == null || searchTerm.trim().isEmpty() || 
                         r.getName().toLowerCase().contains(searchTerm.toLowerCase()) || 
-                        r.getReservationTime().format(FORMATTER).contains(searchTerm)) 
+                        r.getEventTime().format(FORMATTER).contains(searchTerm)) 
                 .collect(Collectors.toList()); 
  
-        Comparator<Reservation> comparator = null; 
+        Comparator<Event> comparator = null; 
         if ("name".equals(sortBy)) { 
-            comparator = Comparator.comparing(Reservation::getName); 
+            comparator = Comparator.comparing(Event::getName); 
         } else if ("time".equals(sortBy)) { 
-            comparator = Comparator.comparing(Reservation::getReservationTime); 
+            comparator = Comparator.comparing(Event::getEventTime); 
         } 
  
         if (comparator != null) { 
@@ -101,7 +101,7 @@ public class ReservationDAO {
         return filteredList; 
     } 
  
-    public void importReservations(BufferedReader reader) throws IOException { 
+    public void importEvents(BufferedReader reader) throws IOException { 
         String line; 
         while ((line = reader.readLine()) != null) { 
             String[] parts = line.split(","); 
@@ -110,42 +110,39 @@ public class ReservationDAO {
                     int id = Integer.parseInt(parts[0]); 
                     String name = parts[1]; 
                     LocalDateTime time = LocalDateTime.parse(parts[2], FORMATTER); 
-                    if (!isDuplicate(name, time) && getReservationById(id) == null) { 
-                        reservations.add(new Reservation(id, name, time)); 
+                    if (!isDuplicate(name, time) && getEventById(id) == null) { 
+                        Events.add(new Event(id, name, time)); 
                         if (id > idCounter.get()) { 
                             idCounter.set(id); 
                         } 
                     } 
                 } catch (NumberFormatException | DateTimeParseException e) { 
-                    System.err.println("Skipping invalid CSV line: " + line + " - " + 
-e.getMessage()); 
-                } 
-            } 
-        } 
-        saveReservations(); 
-    } 
- 
-    private boolean isDuplicate(String name, LocalDateTime time) { 
-        return reservations.stream() 
-                .anyMatch(r -> r.getName().equalsIgnoreCase(name) && r.getReservationTime().equals(time)); 
-    } 
- 
-    private boolean isDuplicate(String name, LocalDateTime time, int excludeId) { 
-        return reservations.stream() 
-                .anyMatch(r -> r.getId() != excludeId && r.getName().equalsIgnoreCase(name) && r.getReservationTime().equals(time)); 
-    } 
- 
-    private static void saveReservations() { 
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(DATA_FILE))) { 
-            for (Reservation res : reservations) { 
-                writer.write(String.format("%d,%s,%s%n", res.getId(), res.getName(), res.getReservationTime().format(FORMATTER))); 
+                    System.err.println("Skipping invalid CSV line: " + line + " - " + e.getMessage());
+                }
             }
-        } catch (IOException e) { 
-            System.err.println("Error saving reservations: " + e.getMessage()); 
-        } 
-    } 
- 
-    private static void loadReservations() { 
+        }
+        saveEvents();
+    }
+
+    private boolean isDuplicate(String name, LocalDateTime time) { 
+        return Events.stream().anyMatch(r -> r.getName().equalsIgnoreCase(name) && r.getEventTime().equals(time)); 
+    }
+
+    private boolean isDuplicate(String name, LocalDateTime time, int excludeId) {
+        return Events.stream().anyMatch(r -> r.getId() != excludeId && r.getName().equalsIgnoreCase(name) && r.getEventTime().equals(time));
+    }
+
+    private static void saveEvents() {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(DATA_FILE))) {
+            for (Event res : Events) {
+                writer.write(String.format("%d,%s,%s%n", res.getId(), res.getName(), res.getEventTime().format(FORMATTER)));
+            }
+        } catch (IOException e) {
+            System.err.println("Error saving Events: " + e.getMessage());
+        }
+    }
+
+    private static void loadEvents() { 
         File file = new File(DATA_FILE); 
         if (!file.exists()) { 
             return; 
@@ -155,12 +152,12 @@ e.getMessage());
             int maxId = 0; 
             while ((line = reader.readLine()) != null) { 
                 String[] parts = line.split(","); 
-                if (parts.length == 3) { 
+                if (parts.length == 3) {
                     try { 
                         int id = Integer.parseInt(parts[0]); 
                         String name = parts[1]; 
                         LocalDateTime time = LocalDateTime.parse(parts[2], FORMATTER); 
-                        reservations.add(new Reservation(id, name, time)); 
+                        Events.add(new Event(id, name, time)); 
                         if (id > maxId) { 
                             maxId = id; 
                         } 
@@ -173,10 +170,10 @@ e.getMessage());
             } 
             idCounter.set(maxId); 
         } catch (IOException e) { 
-            System.err.println("Error loading reservations (IOException): " + 
+            System.err.println("Error loading Events (IOException): " + 
 e.getMessage()); 
         } catch (Exception e) { 
-            System.err.println("An unexpected error occurred while loading reservations: " + 
+            System.err.println("An unexpected error occurred while loading Events: " + 
 e.getMessage()); 
             e.printStackTrace(); 
         } 
