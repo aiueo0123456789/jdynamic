@@ -9,25 +9,28 @@
 	</head> 
 	<body> 
 		<div class="container"> 
-			<h1>予約編集</h1> 
-			<form action="${pageContext.request.contextPath}/reservation" method="post"> 
+			<h1>イベント編集</h1> 
+			<form action="${pageContext.request.contextPath}/main" method="post"> 
 				<input type="hidden" name="action" value="update">  
-				<input type="hidden" name="id" value="${reservation.id}"> 
-				<p> 
+				<input type="hidden" name="id" value="${event.id}"> 
+				<p>
 					<label for="name">名前:</label>  
-					<input type="text" id="name" name="name" value=" 
-					<c:out value="${reservation.name}"/>" required> 
+					<input type="text" id="name" name="name" value="<c:out value="${event.name}"/>" required> 
 					<span class="error-message"><c:out value="${errorMessage}" /></span> 
 			  	</p> 
 				<p> 
-					<label for="reservation_time">希望日時:</label>  
-					<input type="datetime-local" id="reservation_time" name="reservation_time"
-					value="<c:out value="${reservation.reservationTime}"/>" required>
+					<label for="main_time">開始日時:</label>  
+					<input type="datetime-local" id="main_time" name="satrtTime" value="<c:out value="${event.startTime}"/>" required>
+					<span class="error-message"><c:out value="${errorMessage}" /></span>
+				 </p>
+				 <p> 
+					<label for="main_time">終了日時:</label>  
+					<input type="datetime-local" id="main_time" name="endTime" value="<c:out value="${event.endTime}"/>" required>
 					<span class="error-message"><c:out value="${errorMessage}" /></span>
 				 </p>
 				 <div class="button-group">
 			   	 <input type="submit" value="更新"> 
-				 <a href="${pageContext.request.contextPath}/reservation?action=list" class="button secondary">予約一覧に戻る</a>
+				 <a href="${pageContext.request.contextPath}/main?action=list" class="button secondary">イベント一覧に戻る</a>
 				 </div> 
 			</form> 
 		</div> 

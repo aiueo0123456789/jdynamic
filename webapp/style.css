@@ -10,10 +10,7 @@ body {
 .container { 
     max-width: 900px; 
     margin: 30px auto; 
-    background-color: #ffffff; 
     padding: 30px; 
-    border-radius: 10px; 
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); 
 } 
  
 h1 { 
@@ -85,7 +82,7 @@ input[type="submit"]:hover,
 .button:hover { 
     background-color: #0056b3; 
     transform: translateY(-2px); 
-} 
+}
  
 .button.secondary { 
     background-color: #6c757d; 
@@ -112,7 +109,17 @@ input[type="submit"]:hover,
     border: 1px solid #c3e6cb; 
     border-radius: 5px; 
 } 
- 
+
+.table { 
+    max-width: 100%; 
+    border-collapse: collapse;  
+	padding: 10px;
+    background-color: #fff; 
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05); 
+    border-radius: 8px; 
+    overflow: hidden; 
+}
+
 /* For tables */ 
 table { 
     width: 100%; 
@@ -194,7 +201,7 @@ tr:hover {
  
 /* Search and Sort */ 
 .search-sort-form { 
-    display: flex; 
+    display: flex;
     gap: 10px; 
     margin-bottom: 20px; 
     align-items: flex-end; 
@@ -222,8 +229,8 @@ tr:hover {
     margin-bottom: 10px; 
     border-radius: 4px; 
 } 
- 
-.display-info p strong { 
+
+.display-info p strong {
     color: #2c3e50; 
 } 
 pre { 
@@ -246,4 +253,84 @@ a {
 a:hover { 
     color: #0056b3; 
     text-decoration: underline; 
-} 
+}
+
+
+/* メニューのスタイル */
+.menu {
+  position: relative;
+  width: fit-content;
+  height: fit-content;
+  color: #333;
+  transition: right 0.3s ease; /* スライドインのアニメーション */
+  padding: 20px;
+  box-sizing: border-box;
+  z-index: 10;
+}
+
+/* ボタンのスタイル */
+.hamburger {
+  top: 20px;
+  right: 20px;
+  width: 30px;
+  cursor: pointer;
+  z-index: 20;
+}
+
+.hamburger span {
+  display: block;
+  height: 3px;
+  width: 100%;
+  background-color: #333;
+  margin: 5px 0;
+  transition: 0.4s;
+}
+
+/* バツ印に変化するスタイル */
+.hamburger.active span:nth-child(1) {
+  transform: rotate(45deg) translate(5px, 5px);
+}
+
+.hamburger.active span:nth-child(2) {
+  opacity: 0;
+}
+
+.hamburger.active span:nth-child(3) {
+  transform: rotate(-45deg) translate(6px, -6px);
+}
+
+/* メニューリストのスタイル */
+.menu ul {
+  position: absolute;
+  display: none;
+  list-style-type: none;
+  padding: 0;
+  flex-flow: column;
+}
+
+.menu.open ul {
+  display: flex;
+}
+
+.menu li {
+  padding: 20px 0;
+  border-bottom: 1px solid #444;
+}
+
+.menu li > * {
+  color: #333;
+  text-decoration: none;
+  display: block;
+  padding: 0px;
+  margin: 0px;
+}
+
+.flex {
+	display: flex;
+}
+
+.list {
+	display: flex;
+	flex-flow: column;
+	gap: 10px;
+}

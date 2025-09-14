@@ -1,27 +1,36 @@
 package com.example.reservation; 
- 
-import java.time.LocalDateTime; 
+
+import com.example.acount.Acount;
+import com.example.event.Event; 
  
 public class Reservation { 
     private int id; 
-    private String name; 
-    private LocalDateTime reservationTime;
+    private Acount acount; 
+    private Event event;
 
-    public Reservation(int id, String name, LocalDateTime reservationTime) {
+    public Reservation(int id, Acount acount, Event event) {
         this.id = id; 
-        this.name = name; 
-        this.reservationTime = reservationTime; 
+        this.acount = acount;
+        this.event = event; 
     }
 
     public int getId() { 
         return id; 
     }
 
-    public String getName() { 
-        return name; 
+    public int getAcountId() { 
+        return acount.getId();
     }
 
-    public LocalDateTime getReservationTime() { 
-        return reservationTime; 
+    public int getEventId() { 
+        return event.getId(); 
     }
+    
+    public Event getEvent() {
+		return event;
+	}
+    
+    public Acount getAcount() {
+		return acount;
+	}
 }

@@ -4,30 +4,30 @@
 <html lang="ja"> 
 <head> 
 <meta charset="UTF-8"> 
-<title>予約一覧</title> 
+<title>イベント一覧</title> 
 <link rel="stylesheet" href="<c:url value='/style.css' />"> 
 </head> 
-<body> 
-  <div class="container"> 
-    <h1>予約一覧</h1> 
+<body>
+  <div>		
+    <h1>イベント一覧</h1> 
+  </div>
+  <div class="container">
  
     <!-- 検索・ソート --> 
-    <form action="<c:url value='/reservation' />" method="get" class="search-sort-form"> 
+    <form action="<c:url value='/main' />" method="get" class="search-sort-form"> 
       <input type="hidden" name="action" value="list"> 
       <div> 
         <label for="search">検索:</label> 
         <input type="text" id="search" name="search" 
                value="<c:out value='${searchTerm}'/>" 
                placeholder="名前または日時"> 
-      </div> 
-      <div> 
-        <label for="sortBy">ソート基準:</label> 
-        <select id="sortBy" name="sortBy"> 
-          <option value="" <c:if test="${sortBy == null || sortBy == ''}">selected 
-</c:if>>選択してください</option> 
-          <option value="name" <c:if test="${sortBy == 'name'}">selected</c:if>>名前 
-</option> 
-          <option value="time" <c:if test="${sortBy == 'time'}">selected</c:if>>日時</option> 
+      </div>
+      <div>
+        <label for="sortBy">ソート基準:</label>
+        <select id="sortBy" name="sortBy">
+          <option value="" <c:if test="${sortBy == null || sortBy == ''}">selected </c:if>>選択してください</option> 
+          <option value="name" <c:if test="${sortBy == 'name'}">selected</c:if>>名前 </option>
+          <option value="time" <c:if test="${sortBy == 'time'}">selected</c:if>>日時</option>
         </select>
         </div> 
       <div> 
@@ -42,67 +42,75 @@
       <button type="submit" class="button">検索/ソート</button> 
     </form> 
  
-    <!-- メッセージ --> 
+    <!-- メッセージ -->
     <p class="error-message"><c:out value="${errorMessage}" /></p> 
     <p class="success-message"><c:out value="${successMessage}" /></p> 
- 
-    <!-- CSV操作/クリーンアップ --> 
+
+    <!-- CSV操作/クリーンアップ -->
     <div class="button-group"> 
-      <a href="<c:url value='/reservation'><c:param name='action' 
-value='export_csv'/></c:url>" class="button">CSV エクスポート</a> 
+      <a href="<c:url value='/main'><c:param name='action' value='export_csv'/></c:url>" class="button">CSV エクスポート</a>
  
-      <form action="<c:url value='/reservation' />" method="get" style="display:inline;"> 
+      <form action="<c:url value='/main' />" method="get" style="display:inline;"> 
         <input type="hidden" name="action" value="clean_up" /> 
         <input type="submit" value="過去の予約をクリーンアップ" class="button secondary" 
                onclick="return confirm('本当に過去の予約を削除しますか？');"> 
       </form> 
     </div> 
- 
     <!-- 一覧テーブル --> 
-    <table> 
-      <thead> 
+    <tbody>
+    <ul class="list">
+      <c:forEach var="main" items="${events}"> 
+        <li class="table">
+          <%-- <h3>${main.id}</h3> --%>
+          <div class="flex">
+           <h3>${main.name}</h3>
+           <nav class="menu">
+             <div class="hamburger">
+               <span></span>
+               <span></span>
+               <span></span>
+             </div>
+             <ul>
+             <li>
+                <c:url var="reservationUrl" value="/main">
+                  <c:param name="action" value="reservation"/>
+                  <c:param name="event_id" value="${main.id}"/>
+                </c:url>
+                <a href="${reservationUrl}" class="button">申込</a>
+              </li>
+              <li>
+                <c:url var="editUrl" value="/main">
+                  <c:param name="action" value="edit"/>
+                  <c:param name="id" value="${main.id}"/> 
+                </c:url>
+                <a href="${editUrl}" class="button">編集</a>
+              </li>
+              <li>
+                <form action="<c:url value='/main' />" method="post" style="display:inline;"> 
+                  <input type="hidden" name="action" value="delete"> 
+                  <input type="hidden" name="id" value="${main.id}"> 
+                  <input type="submit" value="キャンセル" class="button danger" onclick="return confirm('本当にキャンセルしますか？');">
+                </form>
+              </li>
+             </ul>
+           </nav>
+          </div>
+          <p>開催日時 : ${main.startTime}</p>
+          <p>終了日時 : ${main.endTime}</p>
+        </li>
+      </c:forEach> 
+    </ul>
+      <c:if test="${empty events}"> 
         <tr> 
-          <th>ID</th> 
-          <th>名前</th> 
-          <th>予約日時</th> 
-          <th>操作</th> 
+          <td colspan="4">予約がありません。</td> 
         </tr> 
-        </thead> 
-      <tbody> 
-        <c:forEach var="reservation" items="${reservations}"> 
-          <tr> 
-            <td>${reservation.id}</td> 
-            <td>${reservation.name}</td> 
-            <td>${reservation.reservationTime}</td> 
-            <td class="table-actions"> 
-              <c:url var="editUrl" value="/reservation"> 
-                <c:param name="action" value="edit"/> 
-                <c:param name="id" value="${reservation.id}"/> 
-              </c:url> 
-              <a href="${editUrl}" class="button">編集</a> 
- 
-              <form action="<c:url value='/reservation' />" method="post" 
-style="display:inline;"> 
-                <input type="hidden" name="action" value="delete"> 
-                <input type="hidden" name="id" value="${reservation.id}"> 
-                <input type="submit" value="キャンセル" class="button danger" 
-                       onclick="return confirm('本当にキャンセルしますか？');"> 
-              </form> 
-            </td> 
-          </tr> 
-        </c:forEach> 
-        <c:if test="${empty reservations}"> 
-          <tr> 
-            <td colspan="4">予約がありません。</td> 
-          </tr> 
-        </c:if> 
-      </tbody> 
-    </table> 
+      </c:if> 
+    </tbody> 
  
     <!-- ページネーション --> 
     <div class="pagination"> 
       <c:if test="${currentPage != 1}"> 
-        <c:url var="prevUrl" value="/reservation"> 
+        <c:url var="prevUrl" value="/main"> 
           <c:param name="action" value="list"/> 
           <c:param name="page" value="${currentPage - 1}"/>
           <c:param name="search" value="${searchTerm}"/> 
@@ -118,7 +126,7 @@ style="display:inline;">
             <span class="current">${i}</span> 
           </c:when> 
           <c:otherwise> 
-            <c:url var="pageLink" value="/reservation"> 
+            <c:url var="pageLink" value="/main"> 
               <c:param name="action" value="list"/> 
               <c:param name="page" value="${i}"/> 
               <c:param name="search" value="${searchTerm}"/> 
@@ -130,7 +138,7 @@ style="display:inline;">
         </c:choose>
       </c:forEach>
       <c:if test="${currentPage lt noOfPages}"> 
-        <c:url var="nextUrl" value="/reservation"> 
+        <c:url var="nextUrl" value="/main"> 
           <c:param name="action" value="list"/> 
           <c:param name="page" value="${currentPage + 1}"/> 
           <c:param name="search" value="${searchTerm}"/> 
@@ -144,6 +152,17 @@ style="display:inline;">
     <div class="button-group">
     <a href="<c:url value='/index.jsp' />" class="button secondary">トップに戻る</a> 
     </div> 
-  </div> 
+  </div>
+  <script>
+document.addEventListener("DOMContentLoaded", function () {
+  const menus = document.querySelectorAll(".menu");
+  for (const menu of menus) {
+	  const hamburger = menu.querySelector(".hamburger");
+	  hamburger.addEventListener("click", function () {
+	    menu.classList.toggle("open");
+	  });
+  }
+});
+  </script>
 </body> 
 </html>

@@ -22,4 +22,8 @@ public class Acount {
     public String getEventTime() { 
         return password;
     }
+    
+    public void setName(String name) {
+		this.name = name;
+	}
 }
