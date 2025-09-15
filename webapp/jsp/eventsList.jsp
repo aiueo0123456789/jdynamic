@@ -5,9 +5,10 @@
 <head> 
 <meta charset="UTF-8"> 
 <title>イベント一覧</title> 
-<link rel="stylesheet" href="<c:url value='/style.css' />"> 
+<link rel="stylesheet" href="<c:url value='/style.css' />">
 </head> 
 <body>
+  <jsp:include page="/jsp/header.jsp"/>
   <div>		
     <h1>イベント一覧</h1> 
   </div>
@@ -33,10 +34,8 @@
       <div> 
         <label for="sortOrder">ソート順:</label> 
         <select id="sortOrder" name="sortOrder"> 
-          <option value="asc"  <c:if test="${sortOrder == 'asc'}">selected</c:if>>昇順
-</option> 
-          <option value="desc" <c:if test="${sortOrder == 'desc'}">selected</c:if>>降順
-</option> 
+          <option value="asc"  <c:if test="${sortOrder == 'asc'}">selected</c:if>>昇順</option> 
+          <option value="desc" <c:if test="${sortOrder == 'desc'}">selected</c:if>>降順</option> 
         </select> 
       </div> 
       <button type="submit" class="button">検索/ソート</button> 
@@ -87,7 +86,7 @@
               </li>
               <li>
                 <form action="<c:url value='/main' />" method="post" style="display:inline;"> 
-                  <input type="hidden" name="action" value="delete"> 
+                  <input type="hidden" name="action" value="eventDelete"> 
                   <input type="hidden" name="id" value="${main.id}"> 
                   <input type="submit" value="キャンセル" class="button danger" onclick="return confirm('本当にキャンセルしますか？');">
                 </form>
@@ -105,7 +104,7 @@
           <td colspan="4">予約がありません。</td> 
         </tr> 
       </c:if> 
-    </tbody> 
+    </tbody>
  
     <!-- ページネーション --> 
     <div class="pagination"> 

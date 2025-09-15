@@ -9,14 +9,23 @@
 <link rel="stylesheet" href="<c:url value='/style.css' />">
 </head>
 <body>
-<div class="container">
-    <h1>サインイン</h1>
-    <input placeholder="表示名">
-    <input placeholder="パスワード">
-    <div class="button-group">
-        <a href="<c:url value='/reservation?action=list' />" class="button secondary">予約一覧に戻る</a>
-        <a href="<c:url value='/index.jsp' />" class="button secondary">トップに戻る</a>
-    </div>
-</div>
+	<jsp:include page="/jsp/header.jsp"/> 
+	<div class="container">
+	    <h1>サインイン</h1>
+	    <form action="${pageContext.request.contextPath}/main" method="post"> 
+			<input type="hidden" name="action" value="singin">  
+			<label>
+				識別名
+			    <input type="number" placeholder="識別名" name="acount_id">
+			</label>
+			<label>
+				パスワード
+			    <input type="passwaord" placeholder="パスワード" name="acount_passwaord">
+			</label>
+		    <div class="button-group">
+		        <a href="${pageContext.request.contextPath}/index.jsp" class="button secondary">トップ</a>
+		    </div>
+		 </form>
+	</div>
 </body>
 </html>

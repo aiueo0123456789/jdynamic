@@ -15,11 +15,16 @@ public class ReservationDAO {
     private static final List<Reservation> reservations = new CopyOnWriteArrayList<>(); 
     private static final AtomicInteger idCounter = new AtomicInteger(0); 
     private static final String DATA_FILE = "reservations.dat"; 
-    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ISO_LOCAL_DATE_TIME; 
+    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ISO_LOCAL_DATE_TIME;
+    private Acount acount;
 
     static { 
         loadReservations(); 
     }
+    
+    public ReservationDAO(Acount acount) {
+    	this.acount = acount;
+	}
 
     public List<Reservation> getAllReservations() { 
         return new ArrayList<>(reservations); 
@@ -32,7 +37,7 @@ public class ReservationDAO {
                 .orElse(null); 
     } 
  
-    public boolean addReservation(Acount acount, Event event) {
+    public boolean addReservation(Event event) {
         int id = idCounter.incrementAndGet();
         reservations.add(new Reservation(id, acount, event));
         return true;

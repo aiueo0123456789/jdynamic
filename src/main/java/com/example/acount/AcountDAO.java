@@ -6,9 +6,11 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
 
 public class AcountDAO {
     private static final List<Acount> Acounts = new CopyOnWriteArrayList<>();
@@ -24,8 +26,10 @@ public class AcountDAO {
 		return activeAcount;
 	}
     
-    public void setActiveAcount(int id) {
+    public boolean setActiveAcount(int id) {
     	activeAcount = getAcountById(id);
+    	System.out.println("アカウントの切り替え" + id);
+    	return true;
 	}
 
     public List<Acount> getAllAcounts() { 
@@ -53,6 +57,26 @@ public class AcountDAO {
     private boolean isDuplicate(int id) {
         return Acounts.stream().anyMatch(acount -> acount.getId() == id);
     }
+
+    public List<Acount> searchAndSortAcounts(String searchTerm, String sortBy, String sortOrder) {
+        List<Acount> filteredList = Acounts.stream()
+                .filter(r -> searchTerm == null || searchTerm.trim().isEmpty() || r.getName().toLowerCase().contains(searchTerm.toLowerCase()))
+                .collect(Collectors.toList());
+
+        Comparator<Acount> comparator = null;
+        if ("name".equals(sortBy)) {
+            comparator = Comparator.comparing(Acount::getName);
+        }
+
+        if (comparator != null) {
+            if ("desc".equals(sortOrder)) {
+                filteredList.sort(comparator.reversed());
+            } else {
+                filteredList.sort(comparator);
+            }
+        }
+        return filteredList;
+	}
 
     private static void loadAcounts() { 
         File file = new File(DATA_FILE); 

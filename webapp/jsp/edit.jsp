@@ -8,6 +8,7 @@
 	<link rel="stylesheet" href="<c:url value='/style.css' />"> 
 	</head> 
 	<body> 
+		<jsp:include page="/jsp/header.jsp"/>
 		<div class="container"> 
 			<h1>イベント編集</h1> 
 			<form action="${pageContext.request.contextPath}/main" method="post"> 
@@ -31,7 +32,7 @@
 				 <div class="button-group">
 			   	 <input type="submit" value="更新"> 
 				 <a href="${pageContext.request.contextPath}/main?action=list" class="button secondary">イベント一覧に戻る</a>
-				 </div> 
+				 </div>
 			</form> 
 		</div> 
 	</body> 

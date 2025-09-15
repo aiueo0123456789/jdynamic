@@ -2,38 +2,15 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%> 
 <!DOCTYPE html> 
 <html lang="ja"> 
-	<head> 
-		<meta charset="UTF-8"> 
-		<title>簡易予約システム</title> 
-		<link rel="stylesheet" href="style.css"> 
-	</head> 
-	<body> 
+	<head>
+		<meta charset="UTF-8">
+		<title>簡易予約システム</title>
+		<link rel="stylesheet" href="style.css">
+	</head>
+	<body>
+		<jsp:include page="/jsp/header.jsp"/>
 		<div class="container">
-			<h2>サインアップ</h2>
-			<a href="jsp/singup.jsp">アカウントの作成</a>
-			<h2>サインイン</h2>
-			<a href="jsp/singin.jsp">サインイン</a>
-			<h1>イベント追加</h1> 
-			<form action="${pageContext.request.contextPath}/main" method="post"> 
-				<input type="hidden" name="action" value="eventAdd">
-				<p>
-					<label for="name">名前:</label> <input type="text" id="name"name="event_name"  value="<c:out value="${param.name}"/>" required> 
-					<span class="error-message"><c:out value="${errorMessage}" /></span> 
-				</p>
-				<p>
-					<label for="main_time">開催日時:</label>  
-					<input type="datetime-local" id="main_time" name="event_startTime" value="<c:out value="${param.main_time}"/>" required> 
-					<span class="error-message"><c:out value="${errorMessage}" /></span> 
-				</p> 
-				<p>
-					<label for="main_time">終了日時:</label>  
-					<input type="datetime-local" id="main_time" name="event_endTime" value="<c:out value="${param.main_time}"/>" required> 
-					<span class="error-message"><c:out value="${errorMessage}" /></span> 
-				</p>
-				<div class="button-group"> 
-					<input type="submit" value="追加する">
-				</div>
-			</form>
+			<h1>マイページ</h1>
 			<hr>
 			<h2>CSV インポート</h2> 
 			<form action="main" method="post" enctype="multipart/form-data"> 
@@ -53,8 +30,14 @@
 				<c:out value="${successMessage}" /> 
 			</p> 
 			<div class="button-group"> 
-				<a href="${pageContext.request.contextPath}/main?action=list" class="button secondary">イベント一覧を見る</a> 
-			</div> 
+				<a href="${pageContext.request.contextPath}/main?action=eventsList" class="button secondary">イベント一覧を見る</a> 
+			</div>
+			<div class="button-group"> 
+				<a href="${pageContext.request.contextPath}/main?action=eventAdd" class="button secondary">イベント追加</a> 
+			</div>
+			<div class="button-group"> 
+				<a href="${pageContext.request.contextPath}/main?action=acountsList" class="button secondary">アカウント一覧を見る</a> 
+			</div>
 		</div> 
 	</body> 
 </html>
