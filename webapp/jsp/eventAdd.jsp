@@ -5,12 +5,15 @@
 	<head> 
 		<meta charset="UTF-8"> 
 		<title>イベントの追加</title> 
-		<link rel="stylesheet" href="<c:url value='/style.css' />"> 
 	</head>
 	<body>
+		<jsp:include page="/jsp/header.jsp"/>
 		<div class="container">
 			<h1>イベントの追加</h1>
 			<hr>
+			<!-- メッセージ -->
+    		<p class="error-message"><c:out value="${errorMessage}" /></p> 
+    		<p class="success-message"><c:out value="${successMessage}" /></p>
 			<form action="${pageContext.request.contextPath}/main" method="post"> 
 				<input type="hidden" name="action" value="eventAdd">
 				<p>

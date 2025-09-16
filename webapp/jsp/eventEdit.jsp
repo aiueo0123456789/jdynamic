@@ -4,13 +4,13 @@
 <html lang="ja"> 
 	<head> 
 	<meta charset="UTF-8"> 
-	<title>予約編集</title> 
-	<link rel="stylesheet" href="<c:url value='/style.css' />"> 
-	</head> 
+	<title>イベント編集</title> 
+	</head>
 	<body> 
 		<jsp:include page="/jsp/header.jsp"/>
 		<div class="container"> 
-			<h1>イベント編集</h1> 
+			<h1>イベント編集</h1>
+			<hr>
 			<form action="${pageContext.request.contextPath}/main" method="post"> 
 				<input type="hidden" name="action" value="update">  
 				<input type="hidden" name="id" value="${event.id}"> 

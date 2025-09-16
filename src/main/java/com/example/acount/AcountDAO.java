@@ -6,7 +6,6 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -21,7 +20,7 @@ public class AcountDAO {
     static {
         loadAcounts();
     }
-    
+   
     public Acount getActiveAcount() {
 		return activeAcount;
 	}
@@ -81,23 +80,8 @@ public class AcountDAO {
         return Acounts.stream().anyMatch(acount -> acount.getId() == id);
     }
 
-    public List<Acount> searchAndSortAcounts(String searchTerm, String sortBy, String sortOrder) {
-        List<Acount> filteredList = Acounts.stream()
-                .filter(r -> searchTerm == null || searchTerm.trim().isEmpty() || r.getName().toLowerCase().contains(searchTerm.toLowerCase()))
-                .collect(Collectors.toList());
-
-        Comparator<Acount> comparator = null;
-        if ("name".equals(sortBy)) {
-            comparator = Comparator.comparing(Acount::getName);
-        }
-
-        if (comparator != null) {
-            if ("desc".equals(sortOrder)) {
-                filteredList.sort(comparator.reversed());
-            } else {
-                filteredList.sort(comparator);
-            }
-        }
+    public List<Acount> searchAndSortAcounts(String searchTerm) {
+        List<Acount> filteredList = Acounts.stream().filter(r -> searchTerm == null || searchTerm.trim().isEmpty() || r.getName().toLowerCase().contains(searchTerm.toLowerCase())).collect(Collectors.toList());
         return filteredList;
 	}
 

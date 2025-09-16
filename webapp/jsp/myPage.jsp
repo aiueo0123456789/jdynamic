@@ -5,55 +5,16 @@
 <head> 
 <meta charset="UTF-8"> 
 <title>マイページ</title> 
-<link rel="stylesheet" href="<c:url value='/style.css' />">
 </head> 
 <body>
   <jsp:include page="/jsp/header.jsp"/>
-  <div>
-    <h1>マイページ</h1> 
-  </div>
   <div class="container">
-    <!-- 検索・ソート --> 
-    <form action="<c:url value='/main' />" method="get" class="search-sort-form"> 
-      <input type="hidden" name="action" value="list"> 
-      <div> 
-        <label for="search">検索:</label> 
-        <input type="text" id="search" name="search" 
-               value="<c:out value='${searchTerm}'/>" 
-               placeholder="名前または日時"> 
-      </div>
-      <div>
-        <label for="sortBy">ソート基準:</label>
-        <select id="sortBy" name="sortBy">
-          <option value="" <c:if test="${sortBy == null || sortBy == ''}">selected </c:if>>選択してください</option> 
-          <option value="name" <c:if test="${sortBy == 'name'}">selected</c:if>>名前 </option>
-          <option value="time" <c:if test="${sortBy == 'time'}">selected</c:if>>日時</option>
-        </select>
-        </div> 
-      <div>
-        <label for="sortOrder">ソート順:</label> 
-        <select id="sortOrder" name="sortOrder"> 
-          <option value="asc"  <c:if test="${sortOrder == 'asc'}">selected</c:if>>昇順</option> 
-          <option value="desc" <c:if test="${sortOrder == 'desc'}">selected</c:if>>降順</option> 
-        </select> 
-      </div> 
-      <button type="submit" class="button">検索/ソート</button> 
-    </form> 
- 
+  	<h1>マイページ</h1>
+	<hr> 
     <!-- メッセージ -->
     <p class="error-message"><c:out value="${errorMessage}" /></p> 
-    <p class="success-message"><c:out value="${successMessage}" /></p> 
+    <p class="success-message"><c:out value="${successMessage}" /></p>
 
-    <!-- CSV操作/クリーンアップ -->
-    <div class="button-group"> 
-      <a href="<c:url value='/main'><c:param name='action' value='export_csv'/></c:url>" class="button">CSV エクスポート</a>
- 
-      <form action="<c:url value='/main' />" method="get" style="display:inline;"> 
-        <input type="hidden" name="action" value="clean_up" /> 
-        <input type="submit" value="過去の予約をクリーンアップ" class="button secondary" 
-               onclick="return confirm('本当に過去の予約を削除しますか？');"> 
-      </form> 
-    </div> 
     <!-- 一覧テーブル --> 
     <tbody>
     <ul class="list">
@@ -145,10 +106,6 @@
         </c:url> 
         <a href="${nextUrl}">次へ</a> 
       </c:if> 
-    </div> 
- 
-    <div class="button-group">
-    <a href="<c:url value='/index.jsp' />" class="button secondary">トップに戻る</a> 
     </div> 
   </div>
   <script>

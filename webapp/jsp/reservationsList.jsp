@@ -5,12 +5,17 @@
 	<head> 
 		<meta charset="UTF-8"> 
 		<title>予約済み</title> 
-		<link rel="stylesheet" href="<c:url value='/style.css' />"> 
 	</head>
 	<body>
 		<jsp:include page="/jsp/header.jsp"/>
 		
+		<!-- メッセージ -->
+    	<p class="error-message"><c:out value="${errorMessage}" /></p> 
+	    <p class="success-message"><c:out value="${successMessage}" /></p>
+
 		<div class="container">
+			<h1>予約済みのイベント</h1>
+			<hr>
 			<tbody>
 			    <ul class="list">
 			      <c:forEach var="main" items="${reservations}"> 
@@ -29,7 +34,7 @@
 			                <form action="<c:url value='/main' />" method="post" style="display:inline;"> 
 			                  <input type="hidden" name="action" value="reservationDelete"> 
 			                  <input type="hidden" name="reservation_id" value="${main.id}"> 
-			                  <input type="submit" value="キャンセル" class="button danger" onclick="return confirm('本当にキャンセルしますか？');">
+			                  <input type="submit" value="キャンセル" onclick="return confirm('本当にキャンセルしますか？');">
 			                </form>
 			              </li>
 			             </ul>

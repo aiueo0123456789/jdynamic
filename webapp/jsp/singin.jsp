@@ -1,17 +1,16 @@
-<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%> 
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%> 
 <!DOCTYPE html>
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
 <title>サインイン</title>
-<link rel="stylesheet" href="<c:url value='/style.css' />">
 </head>
 <body>
 	<jsp:include page="/jsp/header.jsp"/> 
 	<div class="container">
 	    <h1>サインイン</h1>
+		<hr>
 	    <form action="${pageContext.request.contextPath}/main" method="post"> 
 			<input type="hidden" name="action" value="singin">  
 			<label>
@@ -24,7 +23,10 @@
 			</label>
 		    <div class="button-group">
 		    	<input type="submit" value="ログイン">
-		        <a href="${pageContext.request.contextPath}/index.jsp" class="button secondary">やめる</a>
+		        <c:url var="goToTopUrl" value="/main">
+					<c:param name="action" value="goToTop" />
+				</c:url>
+				<a href="${goToTopUrl}">トップ</a>
 		    </div>
 		 </form>
 	</div>

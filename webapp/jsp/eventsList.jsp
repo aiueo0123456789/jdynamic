@@ -5,15 +5,12 @@
 <head> 
 <meta charset="UTF-8"> 
 <title>イベント一覧</title> 
-<link rel="stylesheet" href="<c:url value='/style.css' />">
 </head> 
 <body>
   <jsp:include page="/jsp/header.jsp"/>
-  <div>		
-    <h1>イベント一覧</h1> 
-  </div>
   <div class="container">
- 
+  	<h1>イベント一覧</h1>
+	<hr>
     <!-- 検索・ソート --> 
     <form action="<c:url value='/main' />" method="get" class="search-sort-form"> 
       <input type="hidden" name="action" value="list"> 
@@ -45,16 +42,6 @@
     <p class="error-message"><c:out value="${errorMessage}" /></p> 
     <p class="success-message"><c:out value="${successMessage}" /></p> 
 
-    <!-- CSV操作/クリーンアップ -->
-    <div class="button-group"> 
-      <a href="<c:url value='/main'><c:param name='action' value='export_csv'/></c:url>" class="button">CSV エクスポート</a>
- 
-      <form action="<c:url value='/main' />" method="get" style="display:inline;"> 
-        <input type="hidden" name="action" value="clean_up" /> 
-        <input type="submit" value="過去の予約をクリーンアップ" class="button secondary" 
-               onclick="return confirm('本当に過去の予約を削除しますか？');"> 
-      </form> 
-    </div> 
     <!-- 一覧テーブル --> 
     <tbody>
     <ul class="list">
@@ -75,20 +62,20 @@
                   <c:param name="action" value="reservationAdd"/>
                   <c:param name="event_id" value="${main.id}"/>
                 </c:url>
-                <a href="${reservationUrl}" class="button">申込</a>
+                <a href="${reservationUrl}">申込</a>
               </li>
               <li>
                 <c:url var="editUrl" value="/main">
-                  <c:param name="action" value="edit"/>
+                  <c:param name="action" value="eventEdit"/>
                   <c:param name="id" value="${main.id}"/> 
                 </c:url>
-                <a href="${editUrl}" class="button">編集</a>
+                <a href="${editUrl}">編集</a>
               </li>
               <li>
                 <form action="<c:url value='/main' />" method="post" style="display:inline;"> 
                   <input type="hidden" name="action" value="eventDelete"> 
                   <input type="hidden" name="id" value="${main.id}">
-                  <input type="submit" value="削除" class="button danger" onclick="return confirm('本当に削除しますか？');">
+                  <input type="submit" value="削除" onclick="return confirm('本当に削除しますか？');">
                 </form>
               </li>
              </ul>
@@ -149,7 +136,6 @@
     </div> 
  
     <div class="button-group">
-    <a href="<c:url value='/index.jsp' />" class="button secondary">トップに戻る</a> 
     </div> 
   </div>
   <script>

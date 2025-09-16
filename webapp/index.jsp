@@ -5,7 +5,6 @@
 	<head>
 		<meta charset="UTF-8">
 		<title>簡易予約システム</title>
-		<link rel="stylesheet" href="style.css">
 	</head>
 	<body>
 		<jsp:include page="/jsp/header.jsp"/>
@@ -21,21 +20,17 @@
 				</p> 
 				<div class="button-group"> 
 					<input type="submit" value="インポート"> 
-				</div> 
-			</form> 
+				</div>
+			</form>
 			<p class="error-message"> 
 				<c:out value="${errorMessage}" /> 
 			</p> 
 			<p class="success-message"> 
 				<c:out value="${successMessage}" /> 
-			</p> 
-			<div class="button-group"> 
-				<a href="${pageContext.request.contextPath}/main?action=eventsList" class="button secondary">イベント一覧を見る</a> 
-			</div>
+			</p>
 			<div class="button-group"> 
 				<a href="${pageContext.request.contextPath}/main?action=eventAdd" class="button secondary">イベント追加</a> 
-			</div>
-			<div class="button-group"> 
+				<a href="${pageContext.request.contextPath}/main?action=eventsList" class="button secondary">イベント一覧を見る</a> 
 				<a href="${pageContext.request.contextPath}/main?action=acountsList" class="button secondary">アカウント一覧を見る</a> 
 			</div>
 		</div> 

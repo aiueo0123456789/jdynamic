@@ -4,13 +4,13 @@
 <html lang="ja"> 
 	<head> 
 		<meta charset="UTF-8"> 
-		<title>予約</title> 
-		<link rel="stylesheet" href="<c:url value='/style.css' />"> 
+		<title>予約</title>
 	</head>
 	<body>
 		<a href="<c:url value='/index.jsp' />" class="button secondary">トップに戻る</a> 
 		<div class="container"> 
-			<h1>予約</h1> 
+			<h1>イベントの予約</h1>
+			<hr>
 			<form action="${pageContext.request.contextPath}/main" method="post"> 
 				<input type="hidden" name="action" value="reservationAdd">  
 				<input type="hidden" name="event_id" value="${event.id}">
