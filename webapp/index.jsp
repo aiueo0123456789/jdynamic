@@ -10,7 +10,7 @@
 	<body>
 		<jsp:include page="/jsp/header.jsp"/>
 		<div class="container">
-			<h1>マイページ</h1>
+			<h1>トップページ</h1>
 			<hr>
 			<h2>CSV インポート</h2> 
 			<form action="main" method="post" enctype="multipart/form-data"> 

@@ -24,7 +24,7 @@
 			</label>
 		    <div class="button-group">
 		    	<input type="submit" value="ログイン">
-		        <a href="${pageContext.request.contextPath}/index.jsp" class="button secondary">トップ</a>
+		        <a href="${pageContext.request.contextPath}/index.jsp" class="button secondary">やめる</a>
 		    </div>
 		 </form>
 	</div>

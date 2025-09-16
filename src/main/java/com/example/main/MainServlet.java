@@ -102,15 +102,15 @@ public class MainServlet extends HttpServlet {
             rd.forward(req, resp); 
         } else if ("export_csv".equals(action)) { 
             exportCsv(req, resp);
-        } else if ("reservation".equals(action)) {
+        } else if ("reservationAdd".equals(action)) { // 予約
         	int event_id = Integer.parseInt(req.getParameter("event_id")); 
         	req.setAttribute("event", eventDAO.getEventById(event_id)); 
             req.setAttribute("acount", acountDAO.getActiveAcount());
             RequestDispatcher rd = req.getRequestDispatcher("/jsp/reservationAdd.jsp"); 
             rd.forward(req, resp); 
-        } else if ("reservationsList".equals(action)) {
+        } else if ("reservationsList".equals(action)) { // 予約一覧
             req.setAttribute("acount", acountDAO.getActiveAcount());
-            req.setAttribute("reservations", acountDAO.getActiveAcount());
+            req.setAttribute("reservations", acountDAO.getActiveAcount().getReservationDAO().getAllReservations());
             RequestDispatcher rd = req.getRequestDispatcher("/jsp/reservationsList.jsp"); 
             rd.forward(req, resp);
         } else if ("eventAdd".equals(action)) {
@@ -118,7 +118,9 @@ public class MainServlet extends HttpServlet {
             RequestDispatcher rd = req.getRequestDispatcher("/jsp/eventAdd.jsp"); 
             rd.forward(req, resp);
         } else { 
-            resp.sendRedirect("index.jsp"); 
+//            resp.sendRedirect("index.jsp");
+	        	RequestDispatcher rd = req.getRequestDispatcher("/index.jsp"); 
+	            rd.forward(req, resp);
         } 
     }
  
@@ -197,6 +199,10 @@ public class MainServlet extends HttpServlet {
                 RequestDispatcher rd = req.getRequestDispatcher("/index.jsp"); 
                 rd.forward(req, resp); 
             }
+        } else if ("reservationDelete".equals(action)) { // 予約の削除
+        	int eventId = Integer.parseInt(req.getParameter("event_id"));
+        	acountDAO.getActiveAcount().getReservationDAO().deleteReservation(eventId);
+            resp.sendRedirect("main?action=reservationsList");
         } else if ("singup".equals(action)) { // 会員登録
         	int id = Integer.parseInt(req.getParameter("acount_id"));
             String name = req.getParameter("acount_name");

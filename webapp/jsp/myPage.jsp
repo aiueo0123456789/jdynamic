@@ -4,16 +4,15 @@
 <html lang="ja"> 
 <head> 
 <meta charset="UTF-8"> 
-<title>イベント一覧</title> 
+<title>マイページ</title> 
 <link rel="stylesheet" href="<c:url value='/style.css' />">
 </head> 
 <body>
   <jsp:include page="/jsp/header.jsp"/>
-  <div>		
-    <h1>イベント一覧</h1> 
+  <div>
+    <h1>マイページ</h1> 
   </div>
   <div class="container">
- 
     <!-- 検索・ソート --> 
     <form action="<c:url value='/main' />" method="get" class="search-sort-form"> 
       <input type="hidden" name="action" value="list"> 
