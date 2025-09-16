@@ -37,5 +37,16 @@
 		</c:choose>
       	<li><a href="${pageContext.request.contextPath}/jsp/singup.jsp" class="secondary">会員登録</a></li>
 	</div>
+  <script>
+document.addEventListener("DOMContentLoaded", function () {
+  const menus = document.querySelectorAll(".menu");
+  for (const menu of menus) {
+	  const hamburger = menu.querySelector(".hamburger");
+	  hamburger.addEventListener("click", function () {
+	    menu.classList.toggle("open");
+	  });
+  }
+});
+  </script>
 </body>
 </html>

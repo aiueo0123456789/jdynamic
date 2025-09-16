@@ -36,12 +36,11 @@ public class MainServlet extends HttpServlet {
 		System.out.println("doGet が呼ばれました");
 		String action = req.getParameter("action");
 		System.out.println("action : " + action);
-		req.setAttribute("activeAcount", acountDAO.getActiveAcount());
+		String urlString = "";
 
 		if ("singout".equals(action)) { // ログアウト
 			acountDAO.singout();
-			RequestDispatcher rd = req.getRequestDispatcher("/index.jsp");
-			rd.forward(req, resp);
+			urlString = "/index.jsp";
 		} else if ("eventsList".equals(action)) {
 			String searchTerm = req.getParameter("search");
 			String sortBy = req.getParameter("sortBy");
@@ -63,8 +62,7 @@ public class MainServlet extends HttpServlet {
 			req.setAttribute("sortBy", sortBy);
 			req.setAttribute("sortOrder", sortOrder);
 
-			RequestDispatcher rd = req.getRequestDispatcher("/jsp/eventsList.jsp");
-			rd.forward(req, resp);
+			urlString = "/jsp/eventsList.jsp";
 		} else if ("acountsList".equals(action)) {
 			System.out.println("アカウントリストページに移ります");
 			String searchTerm = req.getParameter("search");
@@ -87,37 +85,35 @@ public class MainServlet extends HttpServlet {
 			req.setAttribute("currentPage", page);
 			req.setAttribute("searchTerm", searchTerm);
 
-			RequestDispatcher rd = req.getRequestDispatcher("/jsp/acountsList.jsp");
-			rd.forward(req, resp);
+			urlString = "/jsp/acountsList.jsp";
 		} else if ("eventEdit".equals(action)) {
 			int id = Integer.parseInt(req.getParameter("id"));
 			ReservationDAO reservationDAO = acountDAO.getActiveAcount().getReservationDAO();
 			Reservation reservation = reservationDAO.getReservationById(id);
 			req.setAttribute("reservation", reservation);
-			RequestDispatcher rd = req.getRequestDispatcher("/jsp/edit.jsp");
-			rd.forward(req, resp);
+			urlString = "/jsp/edit.jsp";
 		} else if ("export_csv".equals(action)) {
 			exportCsv(req, resp);
 		} else if ("reservationAdd".equals(action)) { // 予約
 			int event_id = Integer.parseInt(req.getParameter("event_id"));
 			req.setAttribute("event", eventDAO.getEventById(event_id));
 			req.setAttribute("acount", acountDAO.getActiveAcount());
-			RequestDispatcher rd = req.getRequestDispatcher("/jsp/reservationAdd.jsp");
-			rd.forward(req, resp);
+			urlString = "/jsp/reservationAdd.jsp";
 		} else if ("reservationsList".equals(action)) { // 予約一覧
 			req.setAttribute("acount", acountDAO.getActiveAcount());
 			req.setAttribute("reservations", acountDAO.getActiveAcount().getReservationDAO().getAllReservations());
-			RequestDispatcher rd = req.getRequestDispatcher("/jsp/reservationsList.jsp");
-			rd.forward(req, resp);
+			urlString = "/jsp/reservationsList.jsp";
 		} else if ("eventAdd".equals(action)) {
 			req.setAttribute("acount", acountDAO.getActiveAcount());
-			RequestDispatcher rd = req.getRequestDispatcher("/jsp/eventAdd.jsp");
-			rd.forward(req, resp);
+			urlString = "/jsp/eventAdd.jsp";
 		} else {
-			//            resp.sendRedirect("index.jsp");
-			RequestDispatcher rd = req.getRequestDispatcher("/index.jsp");
-			rd.forward(req, resp);
+			List<Event> events = eventDAO.getAllEvents();
+			req.setAttribute("events", events);
+			urlString = "/index.jsp";
 		}
+		req.setAttribute("activeAcount", acountDAO.getActiveAcount());
+		RequestDispatcher rd = req.getRequestDispatcher(urlString);
+		rd.forward(req, resp);
 	}
 
 	@Override

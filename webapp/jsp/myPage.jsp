@@ -65,59 +65,6 @@
         </tr> 
       </c:if> 
     </tbody>
- 
-    <!-- ページネーション --> 
-    <div class="pagination"> 
-      <c:if test="${currentPage != 1}"> 
-        <c:url var="prevUrl" value="/main"> 
-          <c:param name="action" value="list"/> 
-          <c:param name="page" value="${currentPage - 1}"/>
-          <c:param name="search" value="${searchTerm}"/> 
-          <c:param name="sortBy" value="${sortBy}"/> 
-          <c:param name="sortOrder" value="${sortOrder}"/> 
-        </c:url> 
-        <a href="${prevUrl}">前へ</a> 
-      </c:if> 
- 
-      <c:forEach begin="1" end="${noOfPages}" var="i"> 
-        <c:choose> 
-          <c:when test="${currentPage eq i}"> 
-            <span class="current">${i}</span> 
-          </c:when> 
-          <c:otherwise> 
-            <c:url var="pageLink" value="/main"> 
-              <c:param name="action" value="list"/> 
-              <c:param name="page" value="${i}"/> 
-              <c:param name="search" value="${searchTerm}"/> 
-              <c:param name="sortBy" value="${sortBy}"/> 
-              <c:param name="sortOrder" value="${sortOrder}"/> 
-            </c:url> 
-            <a href="${pageLink}">${i}</a> 
-          </c:otherwise>
-        </c:choose>
-      </c:forEach>
-      <c:if test="${currentPage lt noOfPages}"> 
-        <c:url var="nextUrl" value="/main"> 
-          <c:param name="action" value="list"/> 
-          <c:param name="page" value="${currentPage + 1}"/> 
-          <c:param name="search" value="${searchTerm}"/> 
-          <c:param name="sortBy" value="${sortBy}"/> 
-          <c:param name="sortOrder" value="${sortOrder}"/> 
-        </c:url> 
-        <a href="${nextUrl}">次へ</a> 
-      </c:if> 
-    </div> 
   </div>
-  <script>
-document.addEventListener("DOMContentLoaded", function () {
-  const menus = document.querySelectorAll(".menu");
-  for (const menu of menus) {
-	  const hamburger = menu.querySelector(".hamburger");
-	  hamburger.addEventListener("click", function () {
-	    menu.classList.toggle("open");
-	  });
-  }
-});
-  </script>
 </body> 
 </html>

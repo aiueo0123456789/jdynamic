@@ -119,16 +119,5 @@
 		</div>
 
 	</div>
-	<script>
-document.addEventListener("DOMContentLoaded", function () {
-	const menus = document.querySelectorAll(".menu");
-	for (const menu of menus) {
-		const hamburger = menu.querySelector(".hamburger");
-		hamburger.addEventListener("click", function () {
-			menu.classList.toggle("open");
-		});
-	}
-});
-	</script>
 </body>
 </html>

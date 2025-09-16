@@ -18,7 +18,7 @@
 			<hr>
 			<tbody>
 			    <ul class="list">
-			      <c:forEach var="main" items="${reservations}"> 
+			      <c:forEach var="main" items="${reservations}">
 			        <li class="table">
 			          <%-- <h3>${main.id}</h3> --%>
 			          <div class="tableHeader">
@@ -94,16 +94,5 @@
 		      </c:if> 
 		    </div> 
 	    </div>
-	     <script>
-document.addEventListener("DOMContentLoaded", function () {
-  const menus = document.querySelectorAll(".menu");
-  for (const menu of menus) {
-	  const hamburger = menu.querySelector(".hamburger");
-	  hamburger.addEventListener("click", function () {
-	    menu.classList.toggle("open");
-	  });
-  }
-});
-  		</script>
 	</body>
 </html>

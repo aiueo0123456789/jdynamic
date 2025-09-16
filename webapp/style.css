@@ -21,6 +21,10 @@ body {
 	margin: 0 auto;
 }
 
+hr {
+	margin-bottom: 10px !important;
+}
+
 /* タイトル */
 h1 {
 	text-align: center;

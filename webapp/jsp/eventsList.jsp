@@ -88,7 +88,7 @@
     </ul>
       <c:if test="${empty events}"> 
         <tr> 
-          <td colspan="4">予約がありません。</td> 
+          <td colspan="4">イベントがありません。</td> 
         </tr> 
       </c:if> 
     </tbody>
@@ -133,21 +133,7 @@
         </c:url> 
         <a href="${nextUrl}">次へ</a> 
       </c:if> 
-    </div> 
- 
-    <div class="button-group">
-    </div> 
+    </div>
   </div>
-  <script>
-document.addEventListener("DOMContentLoaded", function () {
-  const menus = document.querySelectorAll(".menu");
-  for (const menu of menus) {
-	  const hamburger = menu.querySelector(".hamburger");
-	  hamburger.addEventListener("click", function () {
-	    menu.classList.toggle("open");
-	  });
-  }
-});
-  </script>
 </body> 
 </html>

@@ -3,7 +3,6 @@ package com.example.event;
 import java.io.File;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -21,7 +20,7 @@ public class EventDAO {
     }
 
     public List<Event> getAllEvents() {
-        return new ArrayList<>(Events);
+        return Events;
     }
 
     public Event getEventById(int id) {
