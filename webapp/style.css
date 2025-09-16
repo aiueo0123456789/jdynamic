@@ -42,6 +42,7 @@ h1 {
 .search-sort-form {
 	display: flex;
 	flex-wrap: wrap;
+	flex-flow: row;
 	gap: 15px;
 	margin-bottom: 20px;
 	align-items: flex-end;

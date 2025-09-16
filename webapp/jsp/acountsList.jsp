@@ -19,8 +19,7 @@
 			<c:out value="${successMessage}" />
 		</p>
 		<!-- 検索・ソート -->
-		<form action="<c:url value='/main' />" method="get"
-			class="search-sort-form">
+		<form action="<c:url value='/main' />" method="get" class="search-sort-form">
 			<input type="hidden" name="action" value="acountsList"> <label
 				for="search">検索: <input type="text" id="search"
 				name="search" value="<c:out value='${searchTerm}'/>"
