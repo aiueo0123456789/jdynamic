@@ -7,7 +7,12 @@
 		<title>予約</title>
 	</head>
 	<body>
-		<a href="<c:url value='/index.jsp' />" class="button secondary">トップに戻る</a> 
+		<jsp:include page="/jsp/header.jsp"/>
+		
+		<!-- メッセージ -->
+    	<p class="error-message"><c:out value="${errorMessage}" /></p> 
+	    <p class="success-message"><c:out value="${successMessage}" /></p>
+		 
 		<div class="container"> 
 			<h1>イベントの予約</h1>
 			<hr>
