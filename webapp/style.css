@@ -25,6 +25,12 @@ hr {
 	margin-bottom: 10px !important;
 }
 
+form {
+	display: flex;
+	flex-flow: column;
+	gap: 20px;
+}
+
 /* タイトル */
 h1 {
 	text-align: center;

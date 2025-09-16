@@ -23,10 +23,6 @@
 			</label>
 		    <div class="button-group">
 		    	<input type="submit" value="ログイン">
-		        <c:url var="goToTopUrl" value="/main">
-					<c:param name="action" value="goToTop" />
-				</c:url>
-				<a href="${goToTopUrl}">トップ</a>
 		    </div>
 		 </form>
 	</div>

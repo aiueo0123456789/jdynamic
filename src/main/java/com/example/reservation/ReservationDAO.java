@@ -10,11 +10,11 @@ import java.util.stream.Collectors;
 import com.example.acount.Acount;
 import com.example.event.Event;
 
-public class ReservationDAO { 
-    private static final List<Reservation> Reservations = new CopyOnWriteArrayList<>(); 
-    private static final AtomicInteger idCounter = new AtomicInteger(0); 
+public class ReservationDAO {  
     private static final String DATA_FILE = "reservations.dat"; 
     private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ISO_LOCAL_DATE_TIME;
+    private final List<Reservation> Reservations = new CopyOnWriteArrayList<>();
+    private final AtomicInteger idCounter = new AtomicInteger(0);
     private Acount acount;
 
     static { 
