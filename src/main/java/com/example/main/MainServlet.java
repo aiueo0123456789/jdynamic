@@ -154,7 +154,7 @@ public class MainServlet extends HttpServlet {
 					rd.forward(req, resp);
 					return;
 				}
-				LocalDateTime endTime = LocalDateTime.parse(eventStartString);
+				LocalDateTime endTime = LocalDateTime.parse(eventEndString);
 				if (endTime.isBefore(startTime)) {
 					req.setAttribute("errorMessage", "終了日時が開催日時より前");
 					RequestDispatcher rd = req.getRequestDispatcher("/index.jsp");
