@@ -88,10 +88,9 @@ public class MainServlet extends HttpServlet {
 			urlString = "/jsp/acountsList.jsp";
 		} else if ("eventEdit".equals(action)) {
 			int id = Integer.parseInt(req.getParameter("id"));
-			ReservationDAO reservationDAO = acountDAO.getActiveAcount().getReservationDAO();
-			Reservation reservation = reservationDAO.getReservationById(id);
-			req.setAttribute("reservation", reservation);
-			urlString = "/jsp/edit.jsp";
+			Event event = eventDAO.getEventById(id);
+			req.setAttribute("event", event);
+			urlString = "/jsp/eventEdit.jsp";
 		} else if ("export_csv".equals(action)) {
 			exportCsv(req, resp);
 		} else if ("reservationAdd".equals(action)) { // 予約
@@ -130,19 +129,19 @@ public class MainServlet extends HttpServlet {
 			String eventEndString = req.getParameter("event_endTime");
 			if (name == null || name.trim().isEmpty()) {
 				req.setAttribute("errorMessage", "名前は必須です。");
-				RequestDispatcher rd = req.getRequestDispatcher("/index.jsp");
+				RequestDispatcher rd = req.getRequestDispatcher("/jsp/eventAdd.jsp");
 				rd.forward(req, resp);
 				return;
 			}
 			if (eventStartString == null || eventStartString.isEmpty()) {
 				req.setAttribute("errorMessage", "開催日時は必須です。");
-				RequestDispatcher rd = req.getRequestDispatcher("/index.jsp");
+				RequestDispatcher rd = req.getRequestDispatcher("/jsp/eventAdd.jsp");
 				rd.forward(req, resp);
 				return;
 			}
 			if (eventEndString == null || eventEndString.isEmpty()) {
 				req.setAttribute("errorMessage", "終了日時は必須です。");
-				RequestDispatcher rd = req.getRequestDispatcher("/index.jsp");
+				RequestDispatcher rd = req.getRequestDispatcher("/jsp/eventAdd.jsp");
 				rd.forward(req, resp);
 				return;
 			}
@@ -150,20 +149,20 @@ public class MainServlet extends HttpServlet {
 				LocalDateTime startTime = LocalDateTime.parse(eventStartString);
 				if (startTime.isBefore(LocalDateTime.now())) {
 					req.setAttribute("errorMessage", "過去の日時は選択できません。");
-					RequestDispatcher rd = req.getRequestDispatcher("/index.jsp");
+					RequestDispatcher rd = req.getRequestDispatcher("/jsp/eventAdd.jsp");
 					rd.forward(req, resp);
 					return;
 				}
 				LocalDateTime endTime = LocalDateTime.parse(eventEndString);
 				if (endTime.isBefore(startTime)) {
-					req.setAttribute("errorMessage", "終了日時が開催日時より前");
-					RequestDispatcher rd = req.getRequestDispatcher("/index.jsp");
+					req.setAttribute("errorMessage", "終了日時が開催日時より前になっています。");
+					RequestDispatcher rd = req.getRequestDispatcher("/jsp/eventAdd.jsp");
 					rd.forward(req, resp);
 					return;
 				}
 				if (!eventDAO.addEvent(name, startTime, endTime)) {
 					req.setAttribute("errorMessage", "同じ名前と日時での予約は既に存在します。");
-					RequestDispatcher rd = req.getRequestDispatcher("/index.jsp");
+					RequestDispatcher rd = req.getRequestDispatcher("/jsp/eventAdd.jsp");
 					rd.forward(req, resp);
 					return;
 				}
@@ -274,6 +273,57 @@ public class MainServlet extends HttpServlet {
 			int id = Integer.parseInt(req.getParameter("id"));
 			eventDAO.deleteEvent(id);
 			resp.sendRedirect("main?action=eventsList");
+		} else if ("eventEdit".equals(action)) { // イベントの編集
+			int id = Integer.parseInt(req.getParameter("id"));
+			String name = req.getParameter("name");
+			String eventStartString = req.getParameter("startTime");
+			String eventEndString = req.getParameter("endTime");
+			System.out.println("名前 : " + name + "開始 : " + eventStartString + "終了 : " + eventEndString);
+			if (name == null || name.trim().isEmpty()) {
+				req.setAttribute("errorMessage", "名前は必須です。");
+				RequestDispatcher rd = req.getRequestDispatcher("/jsp/eventEdit.jsp");
+				rd.forward(req, resp);
+				return;
+			}
+			if (eventStartString == null || eventStartString.isEmpty()) {
+				req.setAttribute("errorMessage", "開催日時は必須です。");
+				RequestDispatcher rd = req.getRequestDispatcher("/jsp/eventEdit.jsp");
+				rd.forward(req, resp);
+				return;
+			}
+			if (eventEndString == null || eventEndString.isEmpty()) {
+				req.setAttribute("errorMessage", "終了日時は必須です。");
+				RequestDispatcher rd = req.getRequestDispatcher("/jsp/eventEdit.jsp");
+				rd.forward(req, resp);
+				return;
+			}
+			try {
+				LocalDateTime startTime = LocalDateTime.parse(eventStartString);
+				if (startTime.isBefore(LocalDateTime.now())) {
+					req.setAttribute("errorMessage", "過去の日時は選択できません。");
+					RequestDispatcher rd = req.getRequestDispatcher("/jsp/eventEdit.jsp");
+					rd.forward(req, resp);
+					return;
+				}
+				LocalDateTime endTime = LocalDateTime.parse(eventEndString);
+				if (endTime.isBefore(startTime)) {
+					req.setAttribute("errorMessage", "終了日時が開催日時より前になっています。");
+					RequestDispatcher rd = req.getRequestDispatcher("/jsp/eventEdit.jsp");
+					rd.forward(req, resp);
+					return;
+				}
+				if (!eventDAO.getEventById(id).setNewData(name, startTime, endTime)) {
+					req.setAttribute("errorMessage", "失敗しました。");
+					RequestDispatcher rd = req.getRequestDispatcher("/jsp/eventEdit.jsp");
+					rd.forward(req, resp);
+					return;
+				}
+				resp.sendRedirect("main?action=list");
+			} catch (DateTimeParseException e) {
+				req.setAttribute("errorMessage", "有効な日時を入力してください。");
+				RequestDispatcher rd = req.getRequestDispatcher("/index.jsp");
+				rd.forward(req, resp);
+			}
 		} else if ("acountDelete".equals(action)) { // アカウント削除
 			int id = Integer.parseInt(req.getParameter("id"));
 			acountDAO.deleteAcount(id);

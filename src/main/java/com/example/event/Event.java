@@ -42,4 +42,11 @@ public class Event {
     public void setEndTime(LocalDateTime endTime) {
     	this.endTime = endTime;
     }
+    
+    public boolean setNewData(String name, LocalDateTime startTime, LocalDateTime endTime) {
+        this.name = name; 
+        this.startTime = startTime;
+        this.endTime = endTime;
+		return true;
+	}
 }
