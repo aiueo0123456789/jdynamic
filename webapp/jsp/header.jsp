@@ -16,7 +16,7 @@
 		      	<li><a href="${pageContext.request.contextPath}/jsp/singin.jsp" class="button secondary">ログイン</a></li>
 		    </c:when>
 		    <c:otherwise>
-		        <li><a href="${pageContext.request.contextPath}/jsp/singout.jsp" class="button secondary">ログアウト</a></li>
+		        <li><a href="${pageContext.request.contextPath}/main?action=singout" class="button secondary">ログアウト</a></li>
 		    </c:otherwise>
 		</c:choose>
       	<li><a href="${pageContext.request.contextPath}/jsp/singup.jsp" class="button secondary">会員登録</a></li>

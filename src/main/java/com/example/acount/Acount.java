@@ -34,4 +34,8 @@ public class Acount {
     public ReservationDAO getReservationDAO() {
     	return reservationDAO;
 	}
+    
+    public boolean comparisonPassword(String input) {
+		return input.equals(password);
+	}
 }

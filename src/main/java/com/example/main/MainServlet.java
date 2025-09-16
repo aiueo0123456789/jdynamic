@@ -253,10 +253,10 @@ public class MainServlet extends HttpServlet {
             }
  
             try {
-                if (!acountDAO.setActiveAcount(id)) { 
+                if (!acountDAO.singin(id, passwaord)) { 
                     req.setAttribute("errorMessage", "失敗しました。"); 
-                    RequestDispatcher rd = req.getRequestDispatcher("/jsp/singup.jsp"); 
-                    rd.forward(req, resp); 
+                    RequestDispatcher rd = req.getRequestDispatcher("/jsp/singin.jsp"); 
+                    rd.forward(req, resp);
                     return;
                 }
                 resp.sendRedirect("main?action=acountsList");
@@ -265,6 +265,8 @@ public class MainServlet extends HttpServlet {
                 RequestDispatcher rd = req.getRequestDispatcher("/jsp/singup.jsp"); 
                 rd.forward(req, resp); 
             } 
+        } else if ("singout".equals(action)) { // ログアウト
+            acountDAO.singout();
         } else if ("eventDelete".equals(action)) { // イベント削除
             int id = Integer.parseInt(req.getParameter("id")); 
             eventDAO.deleteEvent(id); 

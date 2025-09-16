@@ -23,6 +23,7 @@
 			    <input type="passwaord" placeholder="パスワード" name="acount_passwaord">
 			</label>
 		    <div class="button-group">
+		    	<input type="submit" value="ログイン">
 		        <a href="${pageContext.request.contextPath}/index.jsp" class="button secondary">トップ</a>
 		    </div>
 		 </form>

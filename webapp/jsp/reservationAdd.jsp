@@ -4,7 +4,7 @@
 <html lang="ja"> 
 	<head> 
 		<meta charset="UTF-8"> 
-		<title>予約編集</title> 
+		<title>予約</title> 
 		<link rel="stylesheet" href="<c:url value='/style.css' />"> 
 	</head>
 	<body>

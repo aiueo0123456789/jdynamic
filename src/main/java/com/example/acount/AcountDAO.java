@@ -27,9 +27,32 @@ public class AcountDAO {
 	}
     
     public boolean setActiveAcount(int id) {
-    	activeAcount = getAcountById(id);
-    	System.out.println("アカウントの切り替え" + id);
+    	Acount targetAcount = getAcountById(id);
+    	if (targetAcount == null) {
+    		return false;
+    	}
+    	activeAcount = targetAcount;
+    	System.out.println("アカウントの切り替え : " + id);
     	return true;
+	}
+
+    public boolean singin(int id, String password) {
+    	Acount targetAcount = getAcountById(id);
+    	if (targetAcount == null) {
+    		return false;
+    	}
+    	if (targetAcount.comparisonPassword(password)) {
+    		activeAcount = targetAcount;
+        	System.out.println("ログインしました : " + id);
+        	return true;
+    	} else {
+    		return false;
+    	}
+	}
+    
+    public void singout() {
+		activeAcount = null;
+		System.out.println("ログアウト");
 	}
 
     public List<Acount> getAllAcounts() { 
