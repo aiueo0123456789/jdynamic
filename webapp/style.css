@@ -225,6 +225,7 @@ h1 {
 
 .tableHeader>*:nth-child(1) {
 	grid-column: 1/2;
+	border-bottom: 1px solid #1a1a1a;
 }
 
 .tableHeader>*:nth-child(2) {
