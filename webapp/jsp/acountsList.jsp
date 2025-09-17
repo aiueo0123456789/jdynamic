@@ -11,20 +11,13 @@
 	<div class="container">
 		<h1>アカウント一覧</h1>
 		<hr>
-		<!-- メッセージ -->
-		<p class="error-message">
-			<c:out value="${errorMessage}" />
-		</p>
-		<p class="success-message">
-			<c:out value="${successMessage}" />
-		</p>
 		<!-- 検索・ソート -->
-		<form action="<c:url value='/main' />" method="get" class="search-sort-form">
+		<form action="<c:url value='/main' />" method="get"
+			class="search-sort-form">
 			<input type="hidden" name="action" value="acountsList"> <label
-				for="search">検索: <input type="text" id="search"
+				for="search">検索:</label> <input type="text" id="search"
 				name="search" value="<c:out value='${searchTerm}'/>"
 				placeholder="表示名前">
-			</label>
 			<button type="submit" class="button">検索</button>
 		</form>
 
@@ -48,8 +41,7 @@
 									<span></span> <span></span> <span></span>
 								</div>
 								<ul>
-									<li>
-										<c:url var="editUrl" value="/main">
+									<li><c:url var="editUrl" value="/main">
 											<c:param name="action" value="acountEdit" />
 											<c:param name="id" value="${main.id}" />
 										</c:url> <a href="${editUrl}">編集</a></li>
