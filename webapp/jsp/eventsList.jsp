@@ -18,7 +18,7 @@
         <label for="search">検索:</label> 
         <input type="text" id="search" name="search" 
                value="<c:out value='${searchTerm}'/>" 
-               placeholder="名前または日時"> 
+               placeholder="イベント名"> 
       <button type="submit" class="button">検索</button> 
     </form>
  
