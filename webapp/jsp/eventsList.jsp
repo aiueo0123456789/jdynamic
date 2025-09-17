@@ -13,30 +13,14 @@
 	<hr>
     <!-- 検索・ソート --> 
     <form action="<c:url value='/main' />" method="get" class="search-sort-form"> 
-      <input type="hidden" name="action" value="list"> 
+      <input type="hidden" name="action" value="eventsList">
       <div> 
         <label for="search">検索:</label> 
         <input type="text" id="search" name="search" 
                value="<c:out value='${searchTerm}'/>" 
                placeholder="名前または日時"> 
-      </div>
-      <div>
-        <label for="sortBy">ソート基準:</label>
-        <select id="sortBy" name="sortBy">
-          <option value="" <c:if test="${sortBy == null || sortBy == ''}">selected </c:if>>選択してください</option> 
-          <option value="name" <c:if test="${sortBy == 'name'}">selected</c:if>>名前 </option>
-          <option value="time" <c:if test="${sortBy == 'time'}">selected</c:if>>日時</option>
-        </select>
-        </div> 
-      <div>
-        <label for="sortOrder">ソート順:</label> 
-        <select id="sortOrder" name="sortOrder"> 
-          <option value="asc"  <c:if test="${sortOrder == 'asc'}">selected</c:if>>昇順</option> 
-          <option value="desc" <c:if test="${sortOrder == 'desc'}">selected</c:if>>降順</option> 
-        </select> 
-      </div> 
       <button type="submit" class="button">検索/ソート</button> 
-    </form> 
+    </form>
  
     <!-- メッセージ -->
     <p class="error-message"><c:out value="${errorMessage}" /></p> 
@@ -97,7 +81,7 @@
     <div class="pagination"> 
       <c:if test="${currentPage != 1}"> 
         <c:url var="prevUrl" value="/main"> 
-          <c:param name="action" value="list"/> 
+          <c:param name="action" value="eventsList"/> 
           <c:param name="page" value="${currentPage - 1}"/>
           <c:param name="search" value="${searchTerm}"/> 
           <c:param name="sortBy" value="${sortBy}"/> 
@@ -113,7 +97,7 @@
           </c:when> 
           <c:otherwise> 
             <c:url var="pageLink" value="/main"> 
-              <c:param name="action" value="list"/> 
+              <c:param name="action" value="eventsList"/> 
               <c:param name="page" value="${i}"/> 
               <c:param name="search" value="${searchTerm}"/> 
               <c:param name="sortBy" value="${sortBy}"/> 
@@ -125,7 +109,7 @@
       </c:forEach>
       <c:if test="${currentPage lt noOfPages}"> 
         <c:url var="nextUrl" value="/main"> 
-          <c:param name="action" value="list"/> 
+          <c:param name="action" value="eventsList"/> 
           <c:param name="page" value="${currentPage + 1}"/> 
           <c:param name="search" value="${searchTerm}"/> 
           <c:param name="sortBy" value="${sortBy}"/> 

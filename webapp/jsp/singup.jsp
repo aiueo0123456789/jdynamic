@@ -27,7 +27,6 @@
 			</label>
 		    <div class="button-group">
 			   	<input type="submit" value="作成">
-				<a href="${pageContext.request.contextPath}/main?action=list" class="button secondary">やめる</a>
 			 </div>
 	    </form>
 	</div>

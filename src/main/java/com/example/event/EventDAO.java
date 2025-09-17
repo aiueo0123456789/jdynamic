@@ -2,8 +2,6 @@ package com.example.event;
 
 import java.io.File;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.Comparator;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -13,7 +11,6 @@ public class EventDAO {
     private static final List<Event> Events = new CopyOnWriteArrayList<>();
     private static final AtomicInteger idCounter = new AtomicInteger(0);
     private static final String DATA_FILE = "Events.dat";
-    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ISO_LOCAL_DATE_TIME;
 
     static {
         loadEvents();
@@ -42,25 +39,8 @@ public class EventDAO {
         return removed;
     }
 
-    public List<Event> searchAndSortEvents(String searchTerm, String sortBy, String sortOrder) {
-        List<Event> filteredList = Events.stream()
-                .filter(r -> searchTerm == null || searchTerm.trim().isEmpty() || r.getName().toLowerCase().contains(searchTerm.toLowerCase()) || r.getStartTime().format(FORMATTER).contains(searchTerm))
-                .collect(Collectors.toList());
-
-        Comparator<Event> comparator = null;
-        if ("name".equals(sortBy)) {
-            comparator = Comparator.comparing(Event::getName);
-        } else if ("time".equals(sortBy)) {
-            comparator = Comparator.comparing(Event::getStartTime);
-        }
-
-        if (comparator != null) {
-            if ("desc".equals(sortOrder)) {
-                filteredList.sort(comparator.reversed());
-            } else {
-                filteredList.sort(comparator);
-            }
-        }
+    public List<Event> searchAndSortEvents(String searchTerm) {
+        List<Event> filteredList = Events.stream().filter(r -> searchTerm == null || searchTerm.trim().isEmpty() || r.getName().toLowerCase().contains(searchTerm.toLowerCase())).collect(Collectors.toList());
         return filteredList;
     }
 

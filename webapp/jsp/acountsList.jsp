@@ -79,7 +79,7 @@
 		<div class="pagination">
 			<c:if test="${currentPage != 1}">
 				<c:url var="prevUrl" value="/main">
-					<c:param name="action" value="list" />
+					<c:param name="action" value="acountsList" />
 					<c:param name="page" value="${currentPage - 1}" />
 					<c:param name="search" value="${searchTerm}" />
 					<c:param name="sortBy" value="${sortBy}" />
@@ -95,7 +95,7 @@
 					</c:when>
 					<c:otherwise>
 						<c:url var="pageLink" value="/main">
-							<c:param name="action" value="list" />
+							<c:param name="action" value="acountsList" />
 							<c:param name="page" value="${i}" />
 							<c:param name="search" value="${searchTerm}" />
 							<c:param name="sortBy" value="${sortBy}" />
@@ -107,7 +107,7 @@
 			</c:forEach>
 			<c:if test="${currentPage lt noOfPages}">
 				<c:url var="nextUrl" value="/main">
-					<c:param name="action" value="list" />
+					<c:param name="action" value="acountsList" />
 					<c:param name="page" value="${currentPage + 1}" />
 					<c:param name="search" value="${searchTerm}" />
 					<c:param name="sortBy" value="${sortBy}" />

@@ -43,14 +43,12 @@ public class MainServlet extends HttpServlet {
 			urlString = "/index.jsp";
 		} else if ("eventsList".equals(action)) {
 			String searchTerm = req.getParameter("search");
-			String sortBy = req.getParameter("sortBy");
-			String sortOrder = req.getParameter("sortOrder");
 			int page = 1;
 			int recordsPerPage = 5;
 			if (req.getParameter("page") != null) {
 				page = Integer.parseInt(req.getParameter("page"));
 			}
-			List<Event> events = eventDAO.searchAndSortEvents(searchTerm, sortBy, sortOrder);
+			List<Event> events = eventDAO.searchAndSortEvents(searchTerm);
 			int start = (page - 1) * recordsPerPage;
 			int end = Math.min(start + recordsPerPage, events.size());
 			List<Event> view_events = events.subList(start, end);
@@ -59,8 +57,6 @@ public class MainServlet extends HttpServlet {
 			req.setAttribute("noOfPages", noOfPages);
 			req.setAttribute("currentPage", page);
 			req.setAttribute("searchTerm", searchTerm);
-			req.setAttribute("sortBy", sortBy);
-			req.setAttribute("sortOrder", sortOrder);
 
 			urlString = "/jsp/eventsList.jsp";
 		} else if ("acountsList".equals(action)) {
