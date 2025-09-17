@@ -19,7 +19,7 @@
         <input type="text" id="search" name="search" 
                value="<c:out value='${searchTerm}'/>" 
                placeholder="名前または日時"> 
-      <button type="submit" class="button">検索/ソート</button> 
+      <button type="submit" class="button">検索</button> 
     </form>
  
     <!-- メッセージ -->
