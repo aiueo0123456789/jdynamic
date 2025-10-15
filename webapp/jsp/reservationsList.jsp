@@ -8,7 +8,7 @@
 	</head>
 	<body>
 		<jsp:include page="/jsp/header.jsp"/>
-		
+
 		<!-- メッセージ -->
     	<p class="error-message"><c:out value="${errorMessage}" /></p> 
 	    <p class="success-message"><c:out value="${successMessage}" /></p>
